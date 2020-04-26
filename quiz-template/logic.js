@@ -5,9 +5,13 @@ var questTitle = document.querySelector("#question-title");
 var start = document.querySelector("#start");
 var time = document.querySelector("#time");
 var choiceList = document.querySelector("#choices");
+//var answerButton = document.querySelector(".answer-button");
 
+//total time 
 var timeleft = 75;
+// question array begins at 0
 var questionCounter = 0;
+//object array
 var questionsA = [
     {
         title: "The MK3 supra was know for what engine inside of it?",
@@ -31,28 +35,38 @@ var questionsA = [
     }
 
 ]
-
+// gets called once the start button is clicked 
 function showNextQuestion() {
-    var nextQuestion = questionsA[questionCounter];
     
-    var question = nextQuestion.title;
+    choiceList.innerHTML = "";
+    
+    var nextQuestion = questionsA[questionCounter];
+   var question = nextQuestion.title;
     var choices = nextQuestion.choices;
 
-    questTitle.textContent = question;
-    choiceList.textContent = choices;
+    // for (var i = 0; i < nextQuestion.choices.length; i++) 
+    
+        choices.forEach(function(choiceFromArray){
+        //console.log(nextQuestion.choices[i]);
+        var sectionButton = document.createElement("section");
 
-    var section = document.createElement("section");
-    section.textContent = choices;
-
-    section.setAttribute("class","btn");
-    choiceList.appendChild(section);
-   
+        sectionButton.setAttribute("class", "btn");
+        sectionButton.setAttribute("value", "choice");
 
 
-    questionCounter++;
+        sectionButton.textContent = choiceFromArray;
+        sectionButton.onclick = questAnswer;
+        console.log(sectionButton.onclick)
+        choiceList.appendChild(sectionButton);
+    });
+        
+     questTitle.textContent = question;
+    // //choiceList.textContent = choices;
+    // questionCounter++;
 }
-
+// listens for the click on start button
 start.addEventListener("click", function () {
+
     startScreen.setAttribute("class", "hide");
 
     questions.setAttribute("class", "block");
@@ -69,18 +83,26 @@ start.addEventListener("click", function () {
 
     showNextQuestion();
 });
+// shows next question once choice is clicked.
+// answerButton.addEventListener("click", function () {
+// console.log(this);
+//   //  if(===)
 
-choices.addEventListener("click", function () {
 
-    showNextQuestion();
-});
+//     showNextQuestion();
+// });
+
+// suppose to verify if answer is correct 
+function questAnswer(){
+
+    if(this.value !== questionsA[questionCounter].answer){
+        timeLeft -=10;
+    }
+};
+//suppose to end quiz 
+function endQuiz(){
+    clearInterval(timeleft);
+}
 
 
-// new function    time left -10 for answer wrong 
-
-// var questionContent = "";
-
-// for (var i = 0; i < questionsA.length; i++) {
-
-// }
 
